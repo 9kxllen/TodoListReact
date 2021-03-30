@@ -1,23 +1,50 @@
-import logo from './logo.svg';
 import './App.css';
+import {useState} from 'react';
+
 
 function App() {
+  //todos is a variable and settodos is a function creation
+  //use states are to temporarily hold data
+  const [todos, setTodos] = useState(["wack off", "wack on", "school shooting"])
+  const [userInput, setUserInput] = useState("")
+  //e stands for event as in event listener
+  //target is going to target the tag you specific in this case it is targetting the input tag
+  //value is the input value user has input in this context.
+  const inputHandler = (e) => {
+    setUserInput(e.target.value)
+    console.log(e.target)
+  }
+  const AddInput = (e) =>{
+    e.preventDefault()
+    //... is spreading as in spread all the array out
+    if(userInput === ""){
+      alert("stop, it is a null value")
+    }
+    else{
+      setTodos([...todos, userInput])
+    }
+    setUserInput("")
+  }
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Todo App</h1>
+      <form type="submit" onSubmit={AddInput}>
+      <input value={userInput} onChange={inputHandler} type="text"/>
+      <button>Add to do list</button>
+      <p>{userInput}</p>
+      </form>
+      <div>
+        <ul>
+          {
+            //mapping is overlapping the existing array keeping the old one as well as adding new ones
+            todos.map((todo) => {
+              return(
+                <li>{todo}</li>
+              )
+            })
+          }
+        </ul>
+      </div>
     </div>
   );
 }
